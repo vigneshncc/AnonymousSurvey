@@ -3,9 +3,17 @@ pragma experimental ABIEncoderV2;
 
 /** @title Question contract */
 contract Question {
+
     address public surveyor;
     uint256 public questionLength;
     string[] private questionIDs;
+
+    event QuestionCreated(
+        string quesID;
+        string quesName;
+        string quesType;
+        string quesTypeValue;
+    );
 
     struct QuestionData {
         string quesID;
@@ -13,8 +21,14 @@ contract Question {
         string quesType;
         string quesTypeValue;
     }
-    
+
     mapping (string => QuestionData) Questions;
+
+    constructor() public {
+        surveyor = msg.sender;
+        questionLength = 0;
+    }
+    
     /**
      * @dev Modifier which checks if sender is equal to surveyor.
      */
@@ -23,11 +37,6 @@ contract Question {
         _;
     }
 
-    constructor() public {
-        surveyor = msg.sender;
-        questionLength = 0;
-    }
-        
     /**
      * @dev Sets all data for question
      * @param _quesID ID of the question
@@ -42,18 +51,16 @@ contract Question {
         string memory _quesType,
         string memory _quesTypeValue
         ) public onlySurveyor  returns (bool) {
-    
         Questions[_quesID].quesID = _quesID;
         Questions[_quesID].quesName = _quesName;
         Questions[_quesID].quesType = _quesType;
         Questions[_quesID].quesTypeValue = _quesTypeValue;
-        
         questionLength++;
         questionIDs.push(_quesID);
-        
+        emit Deposit(_quesID, _id_quesName, _quesType, _quesTypeValue);
         return true;
     }
-    
+
     /**
      * @dev Gets all data for Questions
      * @return Questions created

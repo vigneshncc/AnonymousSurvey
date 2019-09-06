@@ -1,8 +1,8 @@
 pragma solidity 0.5.8;
 pragma experimental ABIEncoderV2;
 
-/** @title Question contract */
-contract Question {
+/** @title Survey contract */
+contract Survey {
 
     address public surveyor;
     uint256 public questionLength;

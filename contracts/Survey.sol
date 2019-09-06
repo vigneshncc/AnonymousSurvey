@@ -5,28 +5,27 @@ pragma experimental ABIEncoderV2;
 contract Survey {
 
     address public surveyor;
-    uint256 public questionLength;
-    string[] private questionIDs;
+    uint256 public surveyCount;
+    string[] private surveyIDs;
+    address[] private respondents;
 
-    event QuestionCreated(
+    event SurveySubmitted(
         string quesID,
-        string quesName,
-        string quesType,
-        string quesTypeValue
+        string surveyID,
+        string answer
     );
 
-    struct QuestionData {
+    struct SurveyData {
         string quesID;
-        string quesName;
-        string quesType;
-        string quesTypeValue;
+        string surveyID;
+        string answer;
     }
 
-    mapping (string => QuestionData) Questions;
+    mapping (string => SurveyData) SurveyResults;
 
     constructor() public {
         surveyor = msg.sender;
-        questionLength = 0;
+        surveyCount = 0;
     }
     
     /**
@@ -34,6 +33,14 @@ contract Survey {
      */
     modifier onlySurveyor() {
         require(surveyor == msg.sender, "Sender not authorized.");
+        _;
+    }
+    
+    /**
+     * @dev Modifier which checks if respondent is already completed survey or not.
+     */
+    modifier onlyValidRespondent() {
+        require(bytes( respondents[msg.sender] ).length == 0, "Sender not authorized.");
         _;
     }
 
@@ -45,19 +52,18 @@ contract Survey {
      * @param _quesTypeValue Amount of cash available
      * @return boolean value that represents whether question created successfully or not
      */
-    function createQuestion(
+    function submitSurvey(
         string memory _quesID,
-        string memory _quesName,
-        string memory _quesType,
-        string memory _quesTypeValue
-        ) public onlySurveyor  returns (bool) {
+        string memory _surveyID,
+        string memory _answer
+        ) public onlyValidRespondent  returns (bool) {
         Questions[_quesID].quesID = _quesID;
         Questions[_quesID].quesName = _quesName;
         Questions[_quesID].quesType = _quesType;
         Questions[_quesID].quesTypeValue = _quesTypeValue;
         questionLength++;
-        questionIDs.push(_quesID);
-        emit QuestionCreated(_quesID, _quesName, _quesType, _quesTypeValue);
+        respondents.push(_quesID);
+        emit SurveySubmitted(_quesID, _quesName, _quesType, _quesTypeValue);
         return true;
     }
 

@@ -1,32 +1,40 @@
-pragma solidity 0.5.8;
+pragma solidity ^0.5.8;
 pragma experimental ABIEncoderV2;
 
 /** @title Survey contract */
 contract Survey {
 
-    address public surveyor;
-    uint256 public questionLength;
-    string[] private questionIDs;
+    address private surveyor;
+    uint256 private surveyCount;
+    string[] private surveyIDs;
+    address[] private respondents;
+    uint256 private surveyStartTime;
+    uint256 private surveyEndTime;
 
-    event QuestionCreated(
+
+    event SurveySubmitted(
         string quesID,
-        string quesName,
-        string quesType,
-        string quesTypeValue
+        string surveyID,
+        string answer
     );
 
-    struct QuestionData {
+    struct SurveyData {
         string quesID;
-        string quesName;
-        string quesType;
-        string quesTypeValue;
+        string surveyID;
+        string answer;
     }
 
-    mapping (string => QuestionData) Questions;
+    mapping(string => SurveyData) SurveyResults;
+    mapping(address => bool) isRespondentExists;
 
-    constructor() public {
+    constructor(
+        uint256 _surveyStartTime,
+        uint256 _surveyEndTime
+     ) public {
         surveyor = msg.sender;
-        questionLength = 0;
+        surveyCount = 0;
+        surveyStartTime = _surveyStartTime;
+        surveyEndTime = _surveyEndTime;
     }
     
     /**
@@ -36,50 +44,53 @@ contract Survey {
         require(surveyor == msg.sender, "Sender not authorized.");
         _;
     }
+    
+    /**
+     * @dev Modifier which checks if respondent is already completed survey or not.
+     */
+    modifier onlyValidRespondent() {
+        require(!isRespondentExists[msg.sender], "Sender not authorized.");
+        _;
+    }
 
     /**
-     * @dev Sets all data for question
+     * @dev Saves the submitted survey data from respondents
      * @param _quesID ID of the question
-     * @param _quesName Name of the question
-     * @param _quesType Type of the question
-     * @param _quesTypeValue Amount of cash available
-     * @return boolean value that represents whether question created successfully or not
+     * @param _surveyID ID of the survey
+     * @param _answer Answer given by respondents
+     * @return boolean value that represents whether survey submitted successfully or not
      */
-    function createQuestion(
+    function submitSurvey(
         string memory _quesID,
-        string memory _quesName,
-        string memory _quesType,
-        string memory _quesTypeValue
-        ) public onlySurveyor  returns (bool) {
-        Questions[_quesID].quesID = _quesID;
-        Questions[_quesID].quesName = _quesName;
-        Questions[_quesID].quesType = _quesType;
-        Questions[_quesID].quesTypeValue = _quesTypeValue;
-        questionLength++;
-        questionIDs.push(_quesID);
-        emit QuestionCreated(_quesID, _quesName, _quesType, _quesTypeValue);
+        string memory _surveyID,
+        string memory _answer
+        ) public onlyValidRespondent  returns (bool) {
+        SurveyResults[_surveyID].quesID = _quesID;
+        SurveyResults[_surveyID].surveyID = _surveyID;
+        SurveyResults[_surveyID].answer = _answer;
+        surveyCount++;
+        respondents.push(msg.sender);
+        emit SurveySubmitted(_quesID, _surveyID, _answer);
         return true;
     }
 
     /**
-     * @dev Gets all data for Questions
-     * @return Questions created
+     * @dev Used to get overall survey results
+     * @return survey results
      */
-    function getAllQuestions() public view returns (string[] memory, string[] memory,string[] memory,string[] memory)
+    function getSurveyResults() public view returns (string[] memory, string[] memory,string[] memory)
     {
-        string[] memory quesID = new string[](questionLength);
-        string[] memory quesName = new string[](questionLength);
-        string[] memory quesType = new string[](questionLength);
-        string[] memory quesTypeValue = new string[](questionLength);
+        string[] memory quesID = new string[](surveyCount);
+        string[] memory surveyID = new string[](surveyCount);
+        string[] memory answer = new string[](surveyCount);
 
-        for (uint i = 0; i < questionLength; i++) {
-            QuestionData storage quesData = Questions[questionIDs[i]];
-            quesID[i] = quesData.quesID;
-            quesName[i] = quesData.quesName;
-            quesType[i] = quesData.quesType;
-            quesTypeValue[i] = quesData.quesTypeValue;
+        for (uint sIndex = 0; sIndex < surveyCount; sIndex++) {
+            SurveyData storage sData = SurveyResults[surveyIDs[sIndex]];
+            quesID[sIndex] = sData.quesID;
+            surveyID[sIndex] = sData.surveyID;
+            answer[sIndex] = sData.answer;
         }
 
-        return (quesID, quesName, quesType, quesTypeValue);
+        return (quesID, surveyID, answer);
     }
 }

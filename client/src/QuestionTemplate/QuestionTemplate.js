@@ -15,6 +15,7 @@ import {
     OutlinedInput
 } from '@material-ui/core';
 import Table from '../Others/TableComponent';
+import RenderQuestion from '../RenderQuestions/RenderQuestion';
 
 function QuestionTemplate() {
     const [state, setState] = useState({
@@ -89,7 +90,7 @@ function QuestionTemplate() {
     }
     let deleteButton = (event, index) => {
         let temp = Object.assign(stateOpt.questionTypeValueHandler);
-        if(temp.length>1)
+        if (temp.length > 1)
             temp.splice(index, 1);
         else
             alert("Value rows can't be empty!");
@@ -146,15 +147,10 @@ function QuestionTemplate() {
 
             </FormControl>
 
-            
-            {stateQ.questions.map((value, index) =>
-                <div>
-                    <label>{index}</label>
-                    <label>question:{value.question}</label>
-                    <label>questionType:{value.questionTypeHandler}</label>
-                    <label>questionTypeValue:{value.questionTypeValueHandler}</label>
-                </div>
+            {stateQ.questions.reverse().map((value, index) =>
+                <RenderQuestion question={value.question} questionType={value.questionTypeHandler} questionTypeValue={value.questionTypeValueHandler} index={stateQ.questions.length-(index+1)}></RenderQuestion>
             )}
+
         </div >
     )
 }

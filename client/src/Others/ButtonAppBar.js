@@ -31,6 +31,7 @@ export default function ButtonAppBar() {
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
 
+                    Anonymous Survey
                     </Typography>
                     <Button color="inherit"></Button>
                 </Toolbar>

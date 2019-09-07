@@ -89,7 +89,10 @@ function QuestionTemplate() {
     }
     let deleteButton = (event, index) => {
         let temp = Object.assign(stateOpt.questionTypeValueHandler);
-        temp.splice(index, 1);
+        if(temp.length>1)
+            temp.splice(index, 1);
+        else
+            alert("Value rows can't be empty!");
         stateOpt.questionTypeValueHandler = temp;
         questionTypeJSX();
         setStateOpt({

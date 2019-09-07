@@ -1,4 +1,4 @@
-pragma solidity 0.5.8;
+pragma solidity ^0.5.8;
 pragma experimental ABIEncoderV2;
 
 /** @title Question contract */
@@ -7,6 +7,7 @@ contract Question {
     address public surveyor;
     uint256 public questionLength;
     string[] private questionIDs;
+    uint256 private surveyStartTime;
 
     event QuestionCreated(
         string quesID,
@@ -24,8 +25,11 @@ contract Question {
 
     mapping (string => QuestionData) Questions;
 
-    constructor() public {
+    constructor(
+        uint256 _surveyStartTime
+        ) public {
         surveyor = msg.sender;
+        surveyStartTime = _surveyStartTime;
         questionLength = 0;
     }
     
@@ -72,12 +76,12 @@ contract Question {
         string[] memory quesType = new string[](questionLength);
         string[] memory quesTypeValue = new string[](questionLength);
 
-        for (uint i = 0; i < questionLength; i++) {
-            QuestionData storage quesData = Questions[questionIDs[i]];
-            quesID[i] = quesData.quesID;
-            quesName[i] = quesData.quesName;
-            quesType[i] = quesData.quesType;
-            quesTypeValue[i] = quesData.quesTypeValue;
+        for (uint256 qIndex = 0; qIndex < questionLength; qIndex++) {
+            QuestionData storage quesData = Questions[questionIDs[qIndex]];
+            quesID[qIndex] = quesData.quesID;
+            quesName[qIndex] = quesData.quesName;
+            quesType[qIndex] = quesData.quesType;
+            quesTypeValue[qIndex] = quesData.quesTypeValue;
         }
 
         return (quesID, quesName, quesType, quesTypeValue);

@@ -37,13 +37,11 @@ class App extends Component {
 
   runExample = async () => {
     const { accounts, contract } = this.state;
-
     // Stores a given value, 5 by default.
-    await contract.methods.createQuestion("quest_id", "question name", "question type", "question type value").send({ from: accounts[0] });
+    //await contract.methods.createQuestion("quest_id1", "question name1", "question type1", "question type value1").send({ from: accounts[0] });
 
     // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
-
+    const response = await contract.methods.getAllQuestions().call();
     // Update state with the result.
     this.setState({ storageValue: response });
   };

@@ -38,7 +38,7 @@ class App extends Component {
   };
 
   runExample = async () => {
-    
+
     const { accounts, contract } = this.state;
     // Stores a given value, 5 by default.
     //await contract.methods.createQuestion("quest_id1", "question name1", "question type1", "question type value1").send({ from: accounts[0] });
@@ -58,29 +58,29 @@ class App extends Component {
           questions[questIndex][dataIndex] = data[Object.keys(data)[dataIndex]][questIndex];
         }
 
-        
+
         result.push({
           questionID: questions[questIndex][0],
           question: questions[questIndex][1],
           questionTypeHandler: questions[questIndex][2],
           questionTypeValueHandler: questions[questIndex][3]
-      });
+        });
       }
 
       console.log("result", result);
 
-    // Update state with the result.
-    this.setState({ questions: result });
+      // Update state with the result.
+      this.setState({ questions: result });
 
     });
   };
 
-  listenForEvents =  () => {
-    if(this.state.web3 && this.state.contracts){
+  listenForEvents = () => {
+    if (this.state.web3 && this.state.contracts) {
 
-      this.state.contracts.SurveyContract.events.allEvents({ fromBlock:'latest' }, function(error, result) {
-          console.log("error", error);
-          console.log("result", result)
+      this.state.contracts.SurveyContract.events.allEvents({ fromBlock: 'latest' }, function (error, result) {
+        console.log("error", error);
+        console.log("result", result)
       });
 
       // this.state.contracts.SurveyContract.deployed().then(function (instance) {
@@ -92,7 +92,7 @@ class App extends Component {
       //     // Reload when a new question is recorded
       //     App.render();
       //   });
-  
+
       // });
     }
   };

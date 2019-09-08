@@ -26,6 +26,9 @@ function RenderSurveyQuestion(props) {
         if (!temp) {
             temp = [];
         }
+        if (typeof temp == 'string') {
+            temp = JSON.parse(temp);
+        }
         if (event.target.checked) {
             temp.push(event.target.value);
         } else {

@@ -47,7 +47,6 @@ function RenderSurveyQuestion(props) {
         }
     }
     let submit = async (event) => {
-        debugger;
 
         const surveyID = uuidv1();
         let questIds = [], answers = [];

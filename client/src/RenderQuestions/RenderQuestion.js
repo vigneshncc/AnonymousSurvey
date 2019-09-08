@@ -128,7 +128,7 @@ function RenderQuestion(props) {
                     <FormControlLabel
                         control={
                             <Checkbox value={value}
-                                onChange={(event) => props.checkBoxHandler(event, props.index)} />
+                                onChange={(event) => props.checkBoxHandler(event, props.index, props.questionID)} />
                         }
                         label={value}
                         labelPlacement="end"

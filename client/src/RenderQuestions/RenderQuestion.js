@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
         flexWrap: 'wrap',
     },
     paper: {
-        padding: theme.spacing(1, 2),
+        padding: '8px'
     },
 }));
 
@@ -36,15 +36,31 @@ const useStyles1 = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
+        align: 'left'
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
 }));
+const useStyles2 = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+    },
+    formControl: {
+        margin: theme.spacing(3),
+    },
+    group: {
+        margin: theme.spacing(1, 0),
+    },
+}));
+
 function RenderQuestion(props) {
     const classes = useStyles();
     const classes1 = useStyles1();
-
+    const classes2 = useStyles2();
+    let style = {
+        textAlign: 'left'
+    };
     let questionTypeJSX;
     if (props.questionType == 'TextField') {
         questionTypeJSX = <div>
@@ -63,24 +79,29 @@ function RenderQuestion(props) {
         </div>
     } else if (props.questionType == 'DropDown') {
         questionTypeJSX =
-            <div>
+            <div style={style}>
                 <Select
+                    native
+                    className={classes1.formControl}
                     //value={values.age}
                     //onChange={handleChange}
                     // input={<OutlinedInput labelWidth={labelWidth} name="age" id="outlined-age-simple" />}
-                    placeholder="Select"
+                    // placeholder="Select"
+                    // autoWidth="true"
+                    // displayEmpty="true"
+                    align="left"
                 >
                     {props.questionTypeValue.map((value, index) => (
                         <option value={value}>{value}</option>
                     ))}
                 </Select>
-            </div>
+            </div >
     } else if (props.questionType == 'Radio') {
         questionTypeJSX = <div>
             <RadioGroup
                 aria-label="gender"
                 name="gender2"
-            // className={classes.group}
+                className={classes2.group}
             // value={value}
             // onChange={handleChange}
             >
@@ -89,24 +110,24 @@ function RenderQuestion(props) {
                         value={value}
                         control={<Radio color="primary" />}
                         label={value}
-                        labelPlacement="start"
+                        labelPlacement="end"
                     />
                 ))}
             </RadioGroup>
         </div>
     } else {
         questionTypeJSX = <div>
-            <FormGroup row>
-
+            <FormGroup >
+                {props.questionTypeValue.map((value, index) => (
+                    <FormControlLabel
+                        control={
+                            <Checkbox value={value} />
+                        }
+                        label={value}
+                        labelPlacement="end"
+                    />
+                ))}
             </FormGroup>
-            {props.questionTypeValue.map((value, index) => (
-                <FormControlLabel
-                    control={
-                        <Checkbox value={value} />
-                    }
-                    label={value}
-                />
-            ))}
         </div>
     }
     return (

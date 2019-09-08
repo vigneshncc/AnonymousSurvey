@@ -70,11 +70,11 @@ function Dash(props) {
   let templateTable;
   let constructChartJSX = () => {
     templateRD = question.map((value, index) => {
-      return (<RenderChart question={value} data={answer[index]}>
+      return (<RenderChart question={value} data={answer[index]} type="RD">
       </RenderChart>)
     })
     templateC = checkQuestion.map((value, index) => {
-      return (<RenderChart question={value} data={checkQuestionAnswer[index]}>
+      return (<RenderChart question={value} data={checkQuestionAnswer[index]} type="checkBox">
       </RenderChart>)
     })
     templateTable = textQuestion.map((value, index) => {

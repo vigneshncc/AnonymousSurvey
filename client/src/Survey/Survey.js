@@ -3,6 +3,7 @@ import { FormControl, InputLabel, Input, FormHelperText, Button, Container, Typo
 import SurveyContract from '../contracts/Survey.json';
 import getWeb3 from "../utils/getWeb3";
 import RenderSurveyQuestion from './RenderSurveyQuestion';
+const ethers = require('ethers');
 class App extends Component {
     state = { questions: [], surveyResults: [], web3: null, accounts: null, contract: null };
 
@@ -71,7 +72,7 @@ class App extends Component {
 
         // Get the value from the contract to prove it worked.
         await contract.methods.getSurveyResults().call({ from: accounts[0] }, (err, data) => {
-
+            debugger;
             if (data == null)
                 return [];
 
@@ -81,7 +82,6 @@ class App extends Component {
             const surveyCount = data[Object.keys(data)[0]].length;
             var survey = [], result = [];
             var questMapping = {};
-            console.log("this.state.questions", this.state.questions)
             this.state.questions.forEach(question => {
                 questMapping[question.questionID] = {};
                 questMapping[question.questionID]['questionID'] = question.questionID;
@@ -92,19 +92,23 @@ class App extends Component {
             for (var sIndex = 0; sIndex < surveyCount; sIndex++) {
                 survey[sIndex] = [];
                 for (var dataIndex = 0; dataIndex < dataCount; dataIndex++) {
+                    if(dataIndex === 0)
                     survey[sIndex][dataIndex] = data[Object.keys(data)[dataIndex]][sIndex];
+                    else{
+                        survey[sIndex][dataIndex] = ethers.utils.toUtf8String(data[Object.keys(data)[dataIndex]][sIndex]);
+                    }
                 }
 
+                debugger;
+
                 result.push({
-                    questionID: survey[sIndex][0],
-                    surveyID: survey[sIndex][1],
-                    type: questMapping[survey[sIndex][0]]['questionTypeHandler'],
-                    question: questMapping[survey[sIndex][0]]['question'],
+                    surveyID: survey[sIndex][0],
+                    questionID: survey[sIndex][1],
+                    type: questMapping[survey[sIndex][1]]['questionTypeHandler'],
+                    question: questMapping[survey[sIndex][1]]['question'],
                     answer: survey[sIndex][2]
                 });
             }
-
-            console.log("surveyResults", result);
 
             // Update state with the result.
             this.setState({ surveyResults: result });
@@ -138,7 +142,7 @@ class App extends Component {
                 <React.Fragment>
                     <CssBaseline />
                     <Container >
-                        <RenderSurveyQuestion questions={this.state.questions} surveyResults={this.state.surveyResults} accountFrom={this.state.accounts[0]} contract={this.state.contract}></RenderSurveyQuestion>
+                        <RenderSurveyQuestion web3 = {this.state.web3} questions={this.state.questions} surveyResults={this.state.surveyResults} accountFrom={this.state.accounts[0]} contract={this.state.contract}></RenderSurveyQuestion>
                     </Container>
                 </React.Fragment>
 

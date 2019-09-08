@@ -92,7 +92,7 @@ export default function SimpleTable(props) {
                     {rows.map((row, index) => (
                         <TableRow >
                             <TableCell component="th" scope="row">
-                                <b> {row.value}</b>
+                                {row.value}
                             </TableCell>
                         </TableRow>
                     ))}

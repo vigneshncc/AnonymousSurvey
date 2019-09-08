@@ -2,7 +2,7 @@ import React, { Component, useState } from "react";
 import { FormControl, InputLabel, Input, FormHelperText, Button, Container, Typography, CssBaseline } from '@material-ui/core';
 import SurveyContract from '../contracts/Survey.json';
 import getWeb3 from "../utils/getWeb3";
-import RenderSurveyQuestion from './RenderSurveyQuestion';
+import Dash from './Dash';
 class App extends Component {
     state = { questions: [], surveyResults: [], web3: null, accounts: null, contract: null };
 
@@ -138,7 +138,7 @@ class App extends Component {
                 <React.Fragment>
                     <CssBaseline />
                     <Container >
-                        <RenderSurveyQuestion questions={this.state.questions} surveyResults={this.state.surveyResults} accountFrom={this.state.accounts[0]} contract={this.state.contract}></RenderSurveyQuestion>
+                        <Dash questions={this.state.questions} surveyResults={this.state.surveyResults} accountFrom={this.state.accounts[0]} contract={this.state.contract}></Dash>
                     </Container>
                 </React.Fragment>
 

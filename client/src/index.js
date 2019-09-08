@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Route, Link, BrowserRouter as Router } from "react-router-dom";
 import "./index.css";
 import App from "./App";
-import Dash from "./dash/Dash";
+import Dash from "./dash/Dashboard";
 import * as serviceWorker from "./serviceWorker";
 import Survey from "./Survey/Survey";
 const routing = (

@@ -123,16 +123,18 @@ function RenderQuestion(props) {
         </div>
     } else {
         questionTypeJSX = <div>
-            {JSON.parse(props.questionTypeValue).map((value, index) => (
-                <FormControlLabel
-                    control={
-                        <Checkbox value={value}
-                            onChange={(event) => props.checkBoxHandler(event, props.index, props.questionID)} />
-                    }
-                    label={value}
-                    labelPlacement="end"
-                />
-            ))}
+            <FormGroup>
+                {JSON.parse(props.questionTypeValue).map((value, index) => (
+                    <FormControlLabel
+                        control={
+                            <Checkbox value={value}
+                                onChange={(event) => props.checkBoxHandler(event, props.index)} />
+                        }
+                        label={value}
+                        labelPlacement="end"
+                    />
+                ))}
+            </FormGroup>
         </div>
     }
     return (

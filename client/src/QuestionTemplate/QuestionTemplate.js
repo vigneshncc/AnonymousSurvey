@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import {
     FormControl,
-    InputLabel,
-    Input,
-    FormHelperText,
     Button,
-    Container,
-    Typography,
-    CssBaseline,
     TextField,
     makeStyles,
-    MenuItem,
     Select,
     OutlinedInput
 } from '@material-ui/core';
@@ -19,13 +12,12 @@ import RenderQuestion from '../RenderQuestions/RenderQuestion';
 const uuidv1 = require('uuid/v1');
 
 function QuestionTemplate(props) {
-    console.log("props", props)
     const [state, setState] = useState({
         question: '',
         questionTypeHandler: 'TextField',
 
     })
-    const [stateQ, setStateQ] = useState({
+    const [stateQ] = useState({
         questions: []
     });
     const [stateRender, setStateRender] = useState({
@@ -45,7 +37,6 @@ function QuestionTemplate(props) {
     }));
 
     const classes = useStyles();
-    let addQuestionJSX;
     let formSubmit = async (event) => {
         stateQ.questions.push({
             question: state.question,
@@ -53,7 +44,7 @@ function QuestionTemplate(props) {
             questionTypeValueHandler: stateOpt.questionTypeValueHandler
         });
         const questionTypeValue = (stateOpt.questionTypeValueHandler && stateOpt.questionTypeValueHandler.length) > 0 ? JSON.stringify(stateOpt.questionTypeValueHandler) : JSON.stringify([]);
-        await props.questionContract.methods.createQuestion(uuidv1(), state.question, state.questionTypeHandler, questionTypeValue).send({ from: props.accountFrom });
+        await props.contract.methods.createQuestion(uuidv1(), state.question, state.questionTypeHandler, questionTypeValue).send({ from: props.accountFrom });
 
         setState({
             question: '',
@@ -115,8 +106,6 @@ function QuestionTemplate(props) {
         });
     }
 
-
-    console.log("props.questions", props.questions)
     return (
         <div>
             <FormControl fullWidth="true" style={{ padding: "20px" }}>

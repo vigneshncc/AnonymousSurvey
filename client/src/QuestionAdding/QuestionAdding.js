@@ -6,7 +6,7 @@ class QuestionAdding extends Component {
         return (
             <div>
                 <Others></Others>
-                <QuestionTemplate questions={this.props.questions} accountFrom={this.props.accountFrom} questionContract={this.props.questionContract}></QuestionTemplate>
+                <QuestionTemplate questions={this.props.questions} accountFrom={this.props.accountFrom} contract={this.props.contract}></QuestionTemplate>
             </div>
         )
     }

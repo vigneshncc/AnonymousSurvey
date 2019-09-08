@@ -17,7 +17,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
-import { debug } from 'util';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -79,7 +78,7 @@ function RenderQuestion(props) {
                 InputLabelProps={{
                     shrink: true,
                 }}
-                onChange={(event) => props.textField(event, props.index)}
+                onChange={(event) => props.textField(event, props.index, props.questionID)}
             />
         </div>
     } else if (props.questionType == 'DropDown') {
@@ -95,7 +94,7 @@ function RenderQuestion(props) {
                     // autoWidth="true"
                     // displayEmpty="true"
                     align="left"
-                    onChange={(event) => props.textField(event, props.index)}
+                    onChange={(event) => props.textField(event, props.index, props.questionID)}
                 >
                     {questionTypeValueArr.map((value, index) => (
                         <option value={value}>{value}</option>
@@ -110,7 +109,7 @@ function RenderQuestion(props) {
                 className={classes2.group}
                 // value={value}
                 // onChange={handleChange}
-                onChange={(event) => props.textField(event, props.index)}
+                onChange={(event) => props.textField(event, props.index, props.questionID)}
             >
                 {questionTypeValueArr.map((value, index) => (
                     <FormControlLabel
@@ -128,7 +127,7 @@ function RenderQuestion(props) {
                 <FormControlLabel
                     control={
                         <Checkbox value={value}
-                            onChange={(event) => props.checkBoxHandler(event, props.index)} />
+                            onChange={(event) => props.checkBoxHandler(event, props.index, props.questionID)} />
                     }
                     label={value}
                     labelPlacement="end"

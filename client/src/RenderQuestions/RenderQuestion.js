@@ -17,6 +17,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
+import { debug } from 'util';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -45,7 +46,10 @@ function RenderQuestion(props) {
     const classes = useStyles();
     const classes1 = useStyles1();
 
+    const questionTypeValueArr = JSON.parse(props.questionTypeValue);
+
     let questionTypeJSX;
+    debugger;
     if (props.questionType == 'TextField') {
         questionTypeJSX = <div>
             <TextField
@@ -70,7 +74,7 @@ function RenderQuestion(props) {
                     // input={<OutlinedInput labelWidth={labelWidth} name="age" id="outlined-age-simple" />}
                     placeholder="Select"
                 >
-                    {props.questionTypeValue.map((value, index) => (
+                    {questionTypeValueArr.map((value, index) => (
                         <option value={value}>{value}</option>
                     ))}
                 </Select>
@@ -84,7 +88,7 @@ function RenderQuestion(props) {
             // value={value}
             // onChange={handleChange}
             >
-                {props.questionTypeValue.map((value, index) => (
+                {questionTypeValueArr.map((value, index) => (
                     <FormControlLabel
                         value={value}
                         control={<Radio color="primary" />}
@@ -99,7 +103,7 @@ function RenderQuestion(props) {
             <FormGroup row>
 
             </FormGroup>
-            {props.questionTypeValue.map((value, index) => (
+            {questionTypeValueArr.map((value, index) => (
                 <FormControlLabel
                     control={
                         <Checkbox value={value} />

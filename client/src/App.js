@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react";
 import { FormControl, InputLabel, Input, FormHelperText, Button, Container, Typography, CssBaseline } from '@material-ui/core';
-import QuestionContract from "./contracts/Question.json";
+import SurveyContract from "./contracts/Survey.json";
 import getWeb3 from "./utils/getWeb3";
 import QuestionAdding from './QuestionAdding/QuestionAdding';
 import "./App.css";
@@ -18,9 +18,9 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = QuestionContract.networks[networkId];
+      const deployedNetwork = SurveyContract.networks[networkId];
       const instance = new web3.eth.Contract(
-        QuestionContract.abi,
+        SurveyContract.abi,
         deployedNetwork && deployedNetwork.address,
       );
 
@@ -60,6 +60,7 @@ class App extends Component {
 
         
         result.push({
+          questionID: questions[questIndex][0],
           question: questions[questIndex][1],
           questionTypeHandler: questions[questIndex][2],
           questionTypeValueHandler: questions[questIndex][3]
@@ -77,12 +78,12 @@ class App extends Component {
   listenForEvents =  () => {
     if(this.state.web3 && this.state.contracts){
 
-      this.state.contracts.QuestionContract.events.allEvents({ fromBlock:'latest' }, function(error, result) {
+      this.state.contracts.SurveyContract.events.allEvents({ fromBlock:'latest' }, function(error, result) {
           console.log("error", error);
           console.log("result", result)
       });
 
-      // this.state.contracts.QuestionContract.deployed().then(function (instance) {
+      // this.state.contracts.SurveyContract.deployed().then(function (instance) {
       //   instance.QuestionCreated({}, {
       //     fromBlock: App.currentBlockNumber,
       //     toBlock: 'latest'
@@ -105,7 +106,7 @@ class App extends Component {
         <React.Fragment>
           <CssBaseline />
           <Container >
-            <QuestionAdding questions={this.state.questions} accountFrom={this.state.accounts[0]} questionContract={this.state.contract}></QuestionAdding>
+            <QuestionAdding questions={this.state.questions} accountFrom={this.state.accounts[0]} contract={this.state.contract}></QuestionAdding>
           </Container>
         </React.Fragment>
 

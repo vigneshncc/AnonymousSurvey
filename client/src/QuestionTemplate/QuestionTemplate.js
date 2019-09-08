@@ -153,6 +153,7 @@ function QuestionTemplate(props) {
 
             </FormControl>
 
+            <h3>Preview</h3>
 
             {[...props.questions].reverse().map((value, index) =>
                 <RenderQuestion question={value.question}

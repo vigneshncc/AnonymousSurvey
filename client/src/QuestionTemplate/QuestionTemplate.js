@@ -16,8 +16,10 @@ import {
 } from '@material-ui/core';
 import Table from '../Others/TableComponent';
 import RenderQuestion from '../RenderQuestions/RenderQuestion';
+const uuidv1 = require('uuid/v1');
 
-function QuestionTemplate() {
+function QuestionTemplate(props) {
+    console.log("props", props)
     const [state, setState] = useState({
         question: '',
         questionTypeHandler: 'TextField',
@@ -44,12 +46,14 @@ function QuestionTemplate() {
 
     const classes = useStyles();
     let addQuestionJSX;
-    let formSubmit = (event) => {
+    let formSubmit = async (event) => {
         stateQ.questions.push({
             question: state.question,
             questionTypeHandler: state.questionTypeHandler,
             questionTypeValueHandler: stateOpt.questionTypeValueHandler
         });
+        const questionTypeValue = (stateOpt.questionTypeValueHandler && stateOpt.questionTypeValueHandler.length) > 0 ? JSON.stringify(stateOpt.questionTypeValueHandler) : JSON.stringify([]);
+        await props.questionContract.methods.createQuestion(uuidv1(), state.question, state.questionTypeHandler, questionTypeValue).send({ from: props.accountFrom });
 
         setState({
             question: '',
@@ -111,6 +115,9 @@ function QuestionTemplate() {
             addQuestionJSX: temp
         })
     }
+
+
+console.log("props.questions", props.questions)
     return (
         <div>
             <FormControl fullWidth="true" style={{ padding: "20px" }}>
@@ -147,10 +154,10 @@ function QuestionTemplate() {
 
             </FormControl>
 
-            {stateQ.questions.reverse().map((value, index) =>
-                <RenderQuestion question={value.question} questionType={value.questionTypeHandler} questionTypeValue={value.questionTypeValueHandler} index={stateQ.questions.length-(index+1)}></RenderQuestion>
-            )}
 
+            {[...props.questions].reverse().map((value, index) =>
+                <RenderQuestion question={value.question} questionType={value.questionTypeHandler} questionTypeValue={value.questionTypeValueHandler} index={props.questions.length - (index + 1)}></RenderQuestion>
+            )}
         </div >
     )
 }

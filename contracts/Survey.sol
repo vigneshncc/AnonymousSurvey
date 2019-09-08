@@ -1,7 +1,7 @@
 pragma solidity ^0.5.8;
 pragma experimental ABIEncoderV2;
 
-/** @title Question contract */
+/** @title Survey contract */
 contract Survey {
 
     address private surveyor;
@@ -20,15 +20,15 @@ contract Survey {
         string quesTypeValue
     );
     event SurveySubmitted(
-        string quesID,
         string surveyID,
-        string answer
+        bytes[] quesID,
+        bytes[] answer
     );
 
     struct SurveyData {
-        string quesID;
         string surveyID;
-        string answer;
+        bytes quesID;
+        bytes answer;
     }
     
     struct QuestionData {
@@ -38,7 +38,7 @@ contract Survey {
         string quesTypeValue;
     }
 
-    mapping(string => SurveyData) SurveyResults;
+    mapping(uint256 => SurveyData) SurveyResults;
     mapping(address => bool) isRespondentExists;
     mapping (string => QuestionData) Questions;
 
@@ -115,23 +115,25 @@ contract Survey {
 
     /**
      * @dev Saves the submitted survey data from respondents
-     * @param _quesID ID of the question
+     * @param _quesIDs ID of the question
      * @param _surveyID ID of the survey
-     * @param _answer Answer given by respondents
+     * @param _answers Answer given by respondents
      * @return boolean value that represents whether survey submitted successfully or not
      */
     function submitSurvey(
-        string memory _quesID,
         string memory _surveyID,
-        string memory _answer
+        bytes[] memory  _quesIDs,
+        bytes[] memory _answers
         ) public  returns (bool) {
-        SurveyResults[_surveyID].quesID = _quesID;
-        SurveyResults[_surveyID].surveyID = _surveyID;
-        SurveyResults[_surveyID].answer = _answer;
-        surveyCount++;
+        for (uint sIndex = 0; sIndex < _quesIDs.length; sIndex++) {
+            SurveyResults[surveyCount].surveyID = _surveyID;
+            SurveyResults[surveyCount].quesID = _quesIDs[sIndex];
+            SurveyResults[surveyCount].answer = _answers[sIndex];
+            surveyCount++;
+        }
         surveyIDs.push(_surveyID);
         respondents.push(msg.sender);
-        emit SurveySubmitted(_quesID, _surveyID, _answer);
+        emit SurveySubmitted(_surveyID, _quesIDs, _answers);
         return true;
     }
 
@@ -139,19 +141,19 @@ contract Survey {
      * @dev Used to get overall survey results
      * @return survey results
      */
-    function getSurveyResults() public view returns (string[] memory, string[] memory,string[] memory)
+    function getSurveyResults() public view returns (string[] memory, bytes[] memory, bytes[] memory)
     {
-        string[] memory quesID = new string[](surveyCount);
         string[] memory surveyID = new string[](surveyCount);
-        string[] memory answer = new string[](surveyCount);
+        bytes[] memory quesID = new bytes[](surveyCount);
+        bytes[] memory answer = new bytes[](surveyCount);
 
         for (uint sIndex = 0; sIndex < surveyCount; sIndex++) {
-            SurveyData storage sData = SurveyResults[surveyIDs[sIndex]];
+            SurveyData storage sData = SurveyResults[sIndex];
             quesID[sIndex] = sData.quesID;
             surveyID[sIndex] = sData.surveyID;
             answer[sIndex] = sData.answer;
         }
 
-        return (quesID, surveyID, answer);
+        return (surveyID, quesID, answer);
     }
 }

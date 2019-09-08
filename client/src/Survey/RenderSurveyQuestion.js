@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import RenderQuestion from '../RenderQuestions/RenderQuestion';
+import getWeb3 from "../utils/getWeb3";
 const uuidv1 = require('uuid/v1');
+const ethers = require('ethers');
 const useStyles = makeStyles(theme => ({
     button: {
         margin: theme.spacing(1),
@@ -45,7 +47,17 @@ function RenderSurveyQuestion(props) {
         }
     }
     let submit = async (event) => {
-        await props.contract.methods.submitSurvey(answerArray[0].questionID, uuidv1(), answerArray[0].value).send({ from: props.accountFrom }, (err, data) => {
+        debugger;
+
+        const surveyID = uuidv1();
+        let questIds = [], answers = [];
+        answerArray.forEach(ans => {
+            let hexQuestionID = ethers.utils.toUtf8Bytes(ans.questionID);
+            let hexAnswer = ethers.utils.toUtf8Bytes(ans.value);
+            questIds.push(hexQuestionID);
+            answers.push(hexAnswer);
+        });
+        await props.contract.methods.submitSurvey(surveyID, questIds, answers).send({ from: props.accountFrom }, (err, data) => {
             console.log("data", data);
             console.log("err", err);
         });

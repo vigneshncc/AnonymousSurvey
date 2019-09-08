@@ -85,8 +85,8 @@ function QuestionTemplate(props) {
     }
     let addButtonHandler = (event, index) => {
         let temp = Object.assign(stateOpt.questionTypeValueHandler);
-        temp.push('');
-
+        // temp.splice(index, 0, '');
+        temp.push('')
         setStateOpt({
             questionTypeValueHandler: temp
         });
@@ -98,7 +98,6 @@ function QuestionTemplate(props) {
             temp.splice(index, 1);
         else
             alert("Value rows can't be empty!");
-        stateOpt.questionTypeValueHandler = temp;
         questionTypeJSX();
         setStateOpt({
             questionTypeValueHandler: temp
@@ -113,11 +112,11 @@ function QuestionTemplate(props) {
         }
         setStateRender({
             addQuestionJSX: temp
-        })
+        });
     }
 
 
-console.log("props.questions", props.questions)
+    console.log("props.questions", props.questions)
     return (
         <div>
             <FormControl fullWidth="true" style={{ padding: "20px" }}>

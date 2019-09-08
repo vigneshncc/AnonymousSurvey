@@ -45,7 +45,7 @@ function RenderSurveyQuestion(props) {
         }
     }
     let submit = async (event) => {
-        await props.contract.methods.submitSurvey(answerArray[0].questionID, uuidv1(), answerArray[0].value).send({ from: props.accountFrom }, (err, data) => {
+        await props.contract.methods.submitSurvey(answerArray[3].questionID, uuidv1(), answerArray[3].value).send({ from: props.accountFrom }, (err, data) => {
             console.log("data", data);
             console.log("err", err);
         });

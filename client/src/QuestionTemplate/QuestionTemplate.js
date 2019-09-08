@@ -155,7 +155,13 @@ function QuestionTemplate(props) {
 
 
             {[...props.questions].reverse().map((value, index) =>
-                <RenderQuestion question={value.question} questionType={value.questionTypeHandler} questionTypeValue={value.questionTypeValueHandler} index={props.questions.length - (index + 1)}></RenderQuestion>
+                <RenderQuestion question={value.question}
+                    questionType={value.questionTypeHandler}
+                    questionTypeValue={value.questionTypeValueHandler}
+                    index={props.questions.length - (index + 1)}
+                    textField={(event) => { }}
+                    checkBoxHandler={(event) => { }}
+                ></RenderQuestion>
             )}
         </div >
     )

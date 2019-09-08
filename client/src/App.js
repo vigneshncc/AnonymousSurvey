@@ -77,17 +77,22 @@ class App extends Component {
   listenForEvents =  () => {
     if(this.state.web3 && this.state.contracts){
 
-      this.state.contracts.QuestionContract.deployed().then(function (instance) {
-        instance.QuestionCreated({}, {
-          fromBlock: App.currentBlockNumber,
-          toBlock: 'latest'
-        }).watch(function (error, event) {
-          console.log("event triggered", event)
-          // Reload when a new question is recorded
-          App.render();
-        });
-  
+      this.state.contracts.QuestionContract.events.allEvents({ fromBlock:'latest' }, function(error, result) {
+          console.log("error", error);
+          console.log("result", result)
       });
+
+      // this.state.contracts.QuestionContract.deployed().then(function (instance) {
+      //   instance.QuestionCreated({}, {
+      //     fromBlock: App.currentBlockNumber,
+      //     toBlock: 'latest'
+      //   }).watch(function (error, event) {
+      //     console.log("event triggered", event)
+      //     // Reload when a new question is recorded
+      //     App.render();
+      //   });
+  
+      // });
     }
   };
 

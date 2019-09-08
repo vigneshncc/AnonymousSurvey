@@ -154,6 +154,7 @@ console.log("props.questions", props.questions)
 
             </FormControl>
 
+            <h3>Preview</h3>
 
             {[...props.questions].reverse().map((value, index) =>
                 <RenderQuestion question={value.question} questionType={value.questionTypeHandler} questionTypeValue={value.questionTypeValueHandler} index={props.questions.length - (index + 1)}></RenderQuestion>

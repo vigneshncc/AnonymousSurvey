@@ -66,7 +66,6 @@ function RenderQuestion(props) {
         textAlign: 'left'
     };
     let questionTypeJSX;
-    debugger;
     if (props.questionType == 'TextField') {
         questionTypeJSX = <div>
             <TextField
@@ -80,6 +79,7 @@ function RenderQuestion(props) {
                 InputLabelProps={{
                     shrink: true,
                 }}
+                onChange={(event) => props.textField(event, props.index)}
             />
         </div>
     } else if (props.questionType == 'DropDown') {
@@ -95,6 +95,7 @@ function RenderQuestion(props) {
                     // autoWidth="true"
                     // displayEmpty="true"
                     align="left"
+                    onChange={(event) => props.textField(event, props.index)}
                 >
                     {questionTypeValueArr.map((value, index) => (
                         <option value={value}>{value}</option>
@@ -107,8 +108,9 @@ function RenderQuestion(props) {
                 aria-label="gender"
                 name="gender2"
                 className={classes2.group}
-            // value={value}
-            // onChange={handleChange}
+                // value={value}
+                // onChange={handleChange}
+                onChange={(event) => props.textField(event, props.index)}
             >
                 {questionTypeValueArr.map((value, index) => (
                     <FormControlLabel
@@ -122,17 +124,16 @@ function RenderQuestion(props) {
         </div>
     } else {
         questionTypeJSX = <div>
-            <FormGroup >
-                {props.questionTypeValue.map((value, index) => (
-                    <FormControlLabel
-                        control={
-                            <Checkbox value={value} />
-                        }
-                        label={value}
-                        labelPlacement="end"
-                    />
-                ))}
-            </FormGroup>
+            {JSON.parse(props.questionTypeValue).map((value, index) => (
+                <FormControlLabel
+                    control={
+                        <Checkbox value={value}
+                            onChange={(event) => props.checkBoxHandler(event, props.index)} />
+                    }
+                    label={value}
+                    labelPlacement="end"
+                />
+            ))}
         </div>
     }
     return (

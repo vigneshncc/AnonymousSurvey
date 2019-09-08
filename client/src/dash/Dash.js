@@ -2,141 +2,7 @@ import React from "react";
 import RenderChart from './RenderChart';
 import RenderTable from './RenderTable';
 function Dash(props) {
-  let demo = [
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "26c5d3f0-d24b-11e9-8a3e-555bfad0a768",
-      "type": "Radio",
-      "question": "What is your favorite color?",
-      "answer": "Red"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "639c0420-d24b-11e9-9cfb-8d88c394754f",
-      "type": "Radio",
-      "question": "What is your favorite color?",
-      "answer": "Red"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "26c5d3f0-d24b-11e9-8a3e-555bfad0a768",
-      "type": "Radio",
-      "question": "What is your favorite color?",
-      "answer": "Red"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "639c0420-d24b-11e9-9cfb-8d88c394754f",
-      "type": "Radio",
-      "question": "What is your favorite color?",
-      "answer": "Red"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "26c5d3f0-d24b-11e9-8a3e-555bfad0a768",
-      "type": "Radio",
-      "question": "What is your favorite color?",
-      "answer": "Red"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "639c0420-d24b-11e9-9cfb-8d88c394754f",
-      "type": "Radio",
-      "question": "What is your favorite color?",
-      "answer": "Blue"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "26c5d3f0-d24b-11e9-8a3e-555bfad0a768",
-      "type": "Radio",
-      "question": "What is your favorite color?",
-      "answer": "Blue"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "639c0420-d24b-11e9-9cfb-8d88c394754f",
-      "type": "Radio",
-      "question": "What is your favorite color?",
-      "answer": "Blue"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "26c5d3f0-d24b-11e9-8a3e-555bfad0a768",
-      "type": "C",
-      "question": "What is your favorite color?",
-      "answer": "[1,2,4]"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "639c0420-d24b-11e9-9cfb-8d88c394754f",
-      "type": "C",
-      "question": "What is your favorite color?",
-      "answer": "[1]"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "26c5d3f0-d24b-11e9-8a3e-555bfad0a768",
-      "type": "C",
-      "question": "What is your favorite color?",
-      "answer": "[1,2]"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "639c0420-d24b-11e9-9cfb-8d88c394754f",
-      "type": "C",
-      "question": "What is your favorite color?",
-      "answer": "[1,2,3]"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "26c5d3f0-d24b-11e9-8a3e-555bfad0a768",
-      "type": "T",
-      "question": "What is your favorite color?",
-      "answer": "[1,2,4]"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "639c0420-d24b-11e9-9cfb-8d88c394754f",
-      "type": "T",
-      "question": "What is your favorite color?",
-      "answer": "definedtlye not blue"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "26c5d3f0-d24b-11e9-8a3e-555bfad0a768",
-      "type": "T",
-      "question": "What is your favorite color?",
-      "answer": "efinedtlye not blue dsgf45"
-    },
-    {
-      "questionID": "dea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "639c0420-d24b-11e9-9cfb-8d88c394754f",
-      "type": "T",
-      "question": "What is your favorite color?",
-      "answer": "efinedtlye not blue 43098fdlkj435"
-    },
-    {
-      "questionID": "ea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "639c0420-d24b-11e9-9cfb-8d88c394754f",
-      "type": "T",
-      "question": "What is you color?",
-      "answer": "definedtlye not blue definedtlye not blue definedtlye not blue definedtlye not blue definedtlye not blue"
-    },
-    {
-      "questionID": "ea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "26c5d3f0-d24b-11e9-8a3e-555bfad0a768",
-      "type": "T",
-      "question": "What is you color?",
-      "answer": "definedtlye not blue definedtlye not blue definedtlye not blue definedtlye not blue definedtlye not blue"
-    },
-    {
-      "questionID": "ea4b5a0-d24a-11e9-b239-314ffe1d4638",
-      "surveyID": "639c0420-d24b-11e9-9cfb-8d88c394754f",
-      "type": "T",
-      "question": "What is you color?",
-      "answer": "definedtlye not blue definedtlye not blue definedtlye not blue definedtlye not blue definedtlye not blue"
-    }
-  ];
+  let demo = props.surveyResults;
   let question = [];
   let questionID = [];
   let answer = [];
@@ -148,7 +14,7 @@ function Dash(props) {
   let checkQuestionAnswer = [];
   let formDashboard = () => {
     demo.forEach((value, index) => {
-      if (value.type == 'T') {
+      if (value.type == 'TextField') {
         if (textQuestionID.indexOf(value.questionID) == -1) {
           textQuestionID.push(value.questionID);
           textQuestion.push(value.question);
@@ -156,7 +22,7 @@ function Dash(props) {
         } else {
           textQuestionAnswer[textQuestionID.indexOf(value.questionID)].push(value.answer);
         }
-      } else if (value.type == 'D' || value.type == 'Radio') {
+      } else if (value.type == 'DropDown' || value.type == 'Radio') {
         if (questionID.indexOf(value.questionID) == -1) {
           questionID.push(value.questionID);
           question.push(value.question);
@@ -172,7 +38,7 @@ function Dash(props) {
           }
           answer[questionID.indexOf(value.questionID)] = answerJSON;
         }
-      } else if (value.type = 'C') {
+      } else if (value.type = 'checkBox') {
         if (checkQuestionID.indexOf(value.questionID) == -1) {
           checkQuestionID.push(value.questionID);
           checkQuestion.push(value.question);

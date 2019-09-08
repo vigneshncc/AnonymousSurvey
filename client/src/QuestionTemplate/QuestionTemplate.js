@@ -155,10 +155,9 @@ console.log("props.questions", props.questions)
             </FormControl>
 
 
-            {Object.assign(props.questions).reverse().map((value, index) =>
+            {[...props.questions].reverse().map((value, index) =>
                 <RenderQuestion question={value.question} questionType={value.questionTypeHandler} questionTypeValue={value.questionTypeValueHandler} index={props.questions.length - (index + 1)}></RenderQuestion>
             )}
-
         </div >
     )
 }

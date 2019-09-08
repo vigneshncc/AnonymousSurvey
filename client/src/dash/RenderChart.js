@@ -5,7 +5,7 @@ function RenderChart(props) {
     let temp = props.data;
     let series;
     let seriesGenerator = () => {
-        if (props.type !== 'RD') {
+        if (props.type == 'RD') {
             series = Object.keys(temp).map((value, index) => {
                 console.log(value, index);
                 return {
@@ -14,18 +14,14 @@ function RenderChart(props) {
                 }
             })
         } else {
-            series = Object.keys(temp).map((value, index) => {
-                console.log(value, index);
-                return {
-                    name: value,
-                    data: [temp[value]]
-                }
-            })
+            series = [{
+                data: Object.values(temp)
+            }]
         }
     }
     let options;
     let optionsGenerator = () => {
-        if (props.type !== 'RD') {
+        if (props.type == 'RD') {
             options = {
                 chart: {
                     plotBackgroundColor: null,
@@ -61,23 +57,31 @@ function RenderChart(props) {
                 title: {
                     text: props.question
                 },
-                subtitle: {
-                    // text: 'Source: WorldClimate.com'
-                },
                 xAxis: {
                     categories: Object.keys(temp),
                     crosshair: true
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        // text: 'Rainfall (mm)'
-                    }
                 },
                 plotOptions: {
                     column: {
                         pointPadding: 0.2,
                         borderWidth: 0
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return 'The value for <b>' + this.x +
+                            '</b> is <b>' + this.y + '</b>';
                     }
                 },
                 series: series

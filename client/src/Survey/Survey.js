@@ -1,10 +1,10 @@
 import React, { Component, useState } from "react";
 import { FormControl, InputLabel, Input, FormHelperText, Button, Container, Typography, CssBaseline } from '@material-ui/core';
-import QuestionContract from '../contracts/Question.json';
+import SurveyContract from '../contracts/Survey.json';
 import getWeb3 from "../utils/getWeb3";
 import RenderSurveyQuestion from './RenderSurveyQuestion';
 class App extends Component {
-    state = { questions: [], web3: null, accounts: null, contract: null };
+    state = { questions: [], surveyResults: [], web3: null, accounts: null, contract: null };
 
     componentDidMount = async () => {
         try {
@@ -16,9 +16,9 @@ class App extends Component {
 
             // Get the contract instance.
             const networkId = await web3.eth.net.getId();
-            const deployedNetwork = QuestionContract.networks[networkId];
+            const deployedNetwork = SurveyContract.networks[networkId];
             const instance = new web3.eth.Contract(
-                QuestionContract.abi,
+                SurveyContract.abi,
                 deployedNetwork && deployedNetwork.address,
             );
 
@@ -44,7 +44,8 @@ class App extends Component {
         // Get the value from the contract to prove it worked.
         await contract.methods.getAllQuestions().call({ from: accounts[0] }, (err, data) => {
 
-            console.log("data", data);
+            if (data == null)
+                return [];
             const dataCount = Object.keys(data).length;
             if (dataCount === 0)
                 return [];
@@ -55,19 +56,58 @@ class App extends Component {
                 for (var dataIndex = 0; dataIndex < dataCount; dataIndex++) {
                     questions[questIndex][dataIndex] = data[Object.keys(data)[dataIndex]][questIndex];
                 }
-
-
                 result.push({
+                    questionID: questions[questIndex][0],
                     question: questions[questIndex][1],
                     questionTypeHandler: questions[questIndex][2],
                     questionTypeValueHandler: questions[questIndex][3]
                 });
             }
 
-            console.log("result", result);
-
             // Update state with the result.
             this.setState({ questions: result });
+
+        });
+
+        // Get the value from the contract to prove it worked.
+        await contract.methods.getSurveyResults().call({ from: accounts[0] }, (err, data) => {
+
+            if (data == null)
+                return [];
+
+            const dataCount = Object.keys(data).length;
+            if (dataCount === 0)
+                return [];
+            const surveyCount = data[Object.keys(data)[0]].length;
+            var survey = [], result = [];
+            var questMapping = {};
+            console.log("this.state.questions", this.state.questions)
+            this.state.questions.forEach(question => {
+                questMapping[question.questionID] = {};
+                questMapping[question.questionID]['questionID'] = question.questionID;
+                questMapping[question.questionID]['questionTypeHandler'] = question.questionTypeHandler;
+                questMapping[question.questionID]['question'] = question.question;
+                questMapping[question.questionID]['questionTypeValueHandler'] = question.questionTypeValueHandler;
+            });
+            for (var sIndex = 0; sIndex < surveyCount; sIndex++) {
+                survey[sIndex] = [];
+                for (var dataIndex = 0; dataIndex < dataCount; dataIndex++) {
+                    survey[sIndex][dataIndex] = data[Object.keys(data)[dataIndex]][sIndex];
+                }
+
+                result.push({
+                    questionID: survey[sIndex][0],
+                    surveyID: survey[sIndex][1],
+                    type: questMapping[survey[sIndex][0]]['questionTypeHandler'],
+                    question: questMapping[survey[sIndex][0]]['question'],
+                    answer: survey[sIndex][2]
+                });
+            }
+
+            console.log("surveyResults", result);
+
+            // Update state with the result.
+            this.setState({ surveyResults: result });
 
         });
     };
@@ -75,7 +115,7 @@ class App extends Component {
     listenForEvents = () => {
         if (this.state.web3 && this.state.contracts) {
 
-            this.state.contracts.QuestionContract.deployed().then(function (instance) {
+            this.state.contracts.SurveyContract.deployed().then(function (instance) {
                 instance.QuestionCreated({}, {
                     fromBlock: App.currentBlockNumber,
                     toBlock: 'latest'
@@ -98,7 +138,7 @@ class App extends Component {
                 <React.Fragment>
                     <CssBaseline />
                     <Container >
-                        <RenderSurveyQuestion questions={this.state.questions} accountFrom={this.state.accounts[0]} questionContract={this.state.contract}></RenderSurveyQuestion>
+                        <RenderSurveyQuestion questions={this.state.questions} surveyResults={this.state.surveyResults} accountFrom={this.state.accounts[0]} contract={this.state.contract}></RenderSurveyQuestion>
                     </Container>
                 </React.Fragment>
 

@@ -16,7 +16,6 @@ import {
 } from '@material-ui/core';
 import Table from '../Others/TableComponent';
 import RenderQuestion from '../RenderQuestions/RenderQuestion';
-
 function QuestionTemplate() {
     const [state, setState] = useState({
         question: '',
@@ -146,11 +145,9 @@ function QuestionTemplate() {
                 </Button>
 
             </FormControl>
-
-            {stateQ.questions.reverse().map((value, index) =>
-                <RenderQuestion question={value.question} questionType={value.questionTypeHandler} questionTypeValue={value.questionTypeValueHandler} index={stateQ.questions.length-(index+1)}></RenderQuestion>
+            {[...stateQ.questions].reverse().map((value, index) =>
+                <RenderQuestion question={value.question} questionType={value.questionTypeHandler} questionTypeValue={value.questionTypeValueHandler} index={stateQ.questions.length - (index + 1)}></RenderQuestion>
             )}
-
         </div >
     )
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -68,7 +68,7 @@ export default function SimpleTable(props) {
     const classes2 = useStyles2();
     const classes3 = useStyles3();
 
-    const rows = [];
+    let rows = [];
     props.value.forEach((value, index) => {
         rows.push({ index, value })
     })
@@ -78,6 +78,17 @@ export default function SimpleTable(props) {
             document.querySelector('#font-awesome-css'),
         );
     }, []);
+    const [stateOpt, setStateOpt] = useState({
+        questionTypeValueHandler: props.value
+    })
+    let questionTypeValueHandler = (event, index) => {
+        let temp = stateOpt.questionTypeValueHandler;
+        temp[index] = event.target.value;
+        setStateOpt({
+            questionTypeValueHandler: temp
+        });
+        props.inputFieldHandler(event, index)
+    }
     return (
         <Paper className={classes.root}>
             <Table className={classes.table}>
@@ -93,19 +104,23 @@ export default function SimpleTable(props) {
                                     label="Value"
                                     className={classes2.textField}
                                     margin="normal"
-                                    onChange={(event) => props.inputFieldHandler(event, index)}
+                                    value={stateOpt.questionTypeValueHandler[index]}
+                                    // onChange={(event) => props.inputFieldHandler(event, index)}
+                                    onChange={(event) => { questionTypeValueHandler(event, index) }}
                                 />
                             </TableCell>
                             <TableCell component="th" scope="row">
                                 <DeleteIcon className={classes1.icon} onClick={(event) => props.deleteButton(event, index)} />
                             </TableCell>
-                            <TableCell component="th" scope="row">
-                                <Icon onClick={(event) => props.addButtonHandler(event, index)} className={clsx(classes3.icon, 'fa fa-plus-circle')} />
-                            </TableCell>
+
                         </TableRow>
                     ))}
+                    <TableCell component="th" scope="row">
+                        <Icon onClick={(event) => props.addButtonHandler(event, 0)} className={clsx(classes3.icon, 'fa fa-plus-circle')} />
+                    </TableCell>
                 </TableBody>
             </Table>
+
         </Paper>
     );
 }

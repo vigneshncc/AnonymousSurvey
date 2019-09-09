@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import RenderQuestion from '../RenderQuestions/RenderQuestion';
-import getWeb3 from "../utils/getWeb3";
+import Others from '../Others/ButtonAppBar';
+import Typography from '@material-ui/core/Typography';
 const uuidv1 = require('uuid/v1');
 const ethers = require('ethers');
 const useStyles = makeStyles(theme => ({
@@ -61,22 +62,36 @@ function RenderSurveyQuestion(props) {
             console.log("err", err);
         });
     }
-    return (<div>
-        {/* {currentQuestionJSX}
-        <button onClick={nextQuestion}>next</button> */}
-        {[...props.questions].map((value, index) =>
-            <RenderQuestion questionID={value.questionID}
-                question={value.question}
-                questionType={value.questionTypeHandler}
-                questionTypeValue={value.questionTypeValueHandler}
-                index={index}
-                textField={textField}
-                checkBoxHandler={checkBox}
-            ></RenderQuestion>
-        )}
-        <Button color="primary" className={classes.button} onClick={submit}>
-            Submit
-      </Button>
-    </div>)
+
+    if ([...props.questions].length > 0) {
+
+        return (<div>
+
+            <Others></Others>
+            {/* {currentQuestionJSX}
+            <button onClick={nextQuestion}>next</button> */}
+            {[...props.questions].map((value, index) =>
+                <RenderQuestion questionID={value.questionID}
+                    question={value.question}
+                    questionType={value.questionTypeHandler}
+                    questionTypeValue={value.questionTypeValueHandler}
+                    index={index}
+                    textField={textField}
+                    checkBoxHandler={checkBox}
+                ></RenderQuestion>
+            )}
+            <Button color="primary" className={classes.button} onClick={submit}>
+                Submit
+          </Button>
+        </div>)
+    } else {
+        return (<div>
+            <Others></Others>
+            <br/>
+            <Typography variant="h6" className={classes.title}>
+                No survey data found.
+            </Typography>
+        </div>)
+    }
 }
 export default RenderSurveyQuestion;

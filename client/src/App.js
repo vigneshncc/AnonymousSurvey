@@ -45,8 +45,6 @@ class App extends Component {
 
     // Get the value from the contract to prove it worked.
     await contract.methods.getAllQuestions().call({ from: accounts[0] }, (err, data) => {
-
-      console.log("data", data);
       const dataCount = Object.keys(data).length;
       if (dataCount === 0)
         return [];
@@ -57,8 +55,6 @@ class App extends Component {
         for (var dataIndex = 0; dataIndex < dataCount; dataIndex++) {
           questions[questIndex][dataIndex] = data[Object.keys(data)[dataIndex]][questIndex];
         }
-
-
         result.push({
           questionID: questions[questIndex][0],
           question: questions[questIndex][1],
@@ -66,9 +62,6 @@ class App extends Component {
           questionTypeValueHandler: questions[questIndex][3]
         });
       }
-
-      console.log("result", result);
-
       // Update state with the result.
       this.setState({ questions: result });
 
@@ -77,12 +70,10 @@ class App extends Component {
 
   listenForEvents = () => {
     if (this.state.web3 && this.state.contracts) {
-
       this.state.contracts.SurveyContract.events.allEvents({ fromBlock: 'latest' }, function (error, result) {
         console.log("error", error);
         console.log("result", result)
       });
-
       // this.state.contracts.SurveyContract.deployed().then(function (instance) {
       //   instance.QuestionCreated({}, {
       //     fromBlock: App.currentBlockNumber,

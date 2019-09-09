@@ -3,6 +3,7 @@ import { FormControl, InputLabel, Input, FormHelperText, Button, Container, Typo
 import SurveyContract from '../contracts/Survey.json';
 import getWeb3 from "../utils/getWeb3";
 import Dash from './Dash';
+import Others from '../Others/ButtonAppBar';
 const ethers = require('ethers');
 class App extends Component {
     state = { questions: [], surveyResults: [], web3: null, accounts: null, contract: null };
@@ -72,7 +73,6 @@ class App extends Component {
 
         // Get the value from the contract to prove it worked.
         await contract.methods.getSurveyResults().call({ from: accounts[0] }, (err, data) => {
-            debugger;
             if (data == null)
                 return [];
 
@@ -98,9 +98,6 @@ class App extends Component {
                         survey[sIndex][dataIndex] = ethers.utils.toUtf8String(data[Object.keys(data)[dataIndex]][sIndex]);
                     }
                 }
-
-                debugger;
-
                 result.push({
                     surveyID: survey[sIndex][0],
                     questionID: survey[sIndex][1],
@@ -142,6 +139,7 @@ class App extends Component {
                 <React.Fragment>
                     <CssBaseline />
                     <Container >
+                        <Others></Others>
                         <Dash questions={this.state.questions} surveyResults={this.state.surveyResults} accountFrom={this.state.accounts[0]} contract={this.state.contract}></Dash>
                     </Container>
                 </React.Fragment>

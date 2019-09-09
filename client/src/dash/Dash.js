@@ -1,14 +1,14 @@
 import React from "react";
 import DashboardStepper from "./DashboardStepper";
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
   button: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(1)
   },
   input: {
-    display: 'none',
-  },
+    display: "none"
+  }
 }));
 function Dash(props) {
   const classes = useStyles();
@@ -24,15 +24,17 @@ function Dash(props) {
   let checkQuestionAnswer = [];
   let formDashboard = () => {
     demo.forEach((value, index) => {
-      if (value.type === 'TextField') {
+      if (value.type === "TextField") {
         if (textQuestionID.indexOf(value.questionID) === -1) {
           textQuestionID.push(value.questionID);
           textQuestion.push(value.question);
           textQuestionAnswer.push([value.answer]);
         } else {
-          textQuestionAnswer[textQuestionID.indexOf(value.questionID)].push(value.answer);
+          textQuestionAnswer[textQuestionID.indexOf(value.questionID)].push(
+            value.answer
+          );
         }
-      } else if (value.type === 'DropDown' || value.type === 'Radio') {
+      } else if (value.type === "DropDown" || value.type === "Radio") {
         if (questionID.indexOf(value.questionID) === -1) {
           questionID.push(value.questionID);
           question.push(value.question);
@@ -40,7 +42,7 @@ function Dash(props) {
           answerJSON[value.answer] = 1;
           answer.push({ ...answerJSON });
         } else {
-          let answerJSON = answer[questionID.indexOf(value.questionID)]
+          let answerJSON = answer[questionID.indexOf(value.questionID)];
           if (answerJSON[value.answer]) {
             answerJSON[value.answer] = answerJSON[value.answer] + 1;
           } else {
@@ -48,7 +50,7 @@ function Dash(props) {
           }
           answer[questionID.indexOf(value.questionID)] = answerJSON;
         }
-      } else if (value.type === 'checkBox') {
+      } else if (value.type === "checkBox") {
         if (checkQuestionID.indexOf(value.questionID) === -1) {
           checkQuestionID.push(value.questionID);
           checkQuestion.push(value.question);
@@ -56,10 +58,11 @@ function Dash(props) {
           let answerArray = JSON.parse(value.answer);
           answerArray.forEach((value, index) => {
             answerJSON[value] = 1;
-          })
+          });
           checkQuestionAnswer.push({ ...answerJSON });
         } else {
-          let answerJSON = checkQuestionAnswer[questionID.indexOf(value.questionID)];
+          let answerJSON =
+            checkQuestionAnswer[checkQuestionID.indexOf(value.questionID)];
           if (answerJSON) {
             let answerArray = JSON.parse(value.answer);
             answerArray.forEach((value, index) => {
@@ -68,14 +71,15 @@ function Dash(props) {
               } else {
                 answerJSON[value] = 1;
               }
-
-            })
-            checkQuestionAnswer[checkQuestionID.indexOf(value.questionID)] = answerJSON;
+            });
+            checkQuestionAnswer[
+              checkQuestionID.indexOf(value.questionID)
+            ] = answerJSON;
           }
         }
       }
-    })
-  }
+    });
+  };
   formDashboard();
   // let templateRD;
   // let templateC;
@@ -97,17 +101,25 @@ function Dash(props) {
   // }
   // constructChartJSX()
   if (demo.length > 0) {
-
     return (
-      <DashboardStepper question={question} checkQuestion={checkQuestion} checkQuestionAnswer={checkQuestionAnswer} textQuestionAnswer={textQuestionAnswer} textQuestion={textQuestion} answer={answer}></DashboardStepper>
+      <DashboardStepper
+        question={question}
+        checkQuestion={checkQuestion}
+        checkQuestionAnswer={checkQuestionAnswer}
+        textQuestionAnswer={textQuestionAnswer}
+        textQuestion={textQuestion}
+        answer={answer}
+      ></DashboardStepper>
     );
   } else {
-    return (<div>
-      <br />
-      <Typography variant="h6" className={classes.title}>
-        No survey data found.
+    return (
+      <div>
+        <br />
+        <Typography variant="h6" className={classes.title}>
+          No survey data found.
         </Typography>
-    </div>)
+      </div>
+    );
   }
 }
 

@@ -7,7 +7,6 @@ function RenderChart(props) {
     let seriesGenerator = () => {
         if (props.type == 'RD') {
             series = Object.keys(temp).map((value, index) => {
-                console.log(value, index);
                 return {
                     name: value,
                     y: temp[value]
@@ -45,6 +44,9 @@ function RenderChart(props) {
                         }
                     }
                 },
+                credits:{
+                    enabled:false
+                },
                 series: [{
                     data: series
                 }]
@@ -70,7 +72,9 @@ function RenderChart(props) {
                 legend: {
                     enabled: false
                 },
-
+                credits:{
+                    enabled:false
+                },
                 plotOptions: {
                     series: {
                         dataLabels: {

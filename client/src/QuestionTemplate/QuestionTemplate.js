@@ -9,6 +9,15 @@ import {
 } from '@material-ui/core';
 import Table from '../Others/TableComponent';
 import RenderQuestion from '../RenderQuestions/RenderQuestion';
+import Typography from '@material-ui/core/Typography';
+const useStyles = makeStyles(theme => ({
+    button: {
+        margin: theme.spacing(1),
+    },
+    input: {
+        display: 'none',
+    },
+}));
 const uuidv1 = require('uuid/v1');
 
 function QuestionTemplate(props) {
@@ -142,7 +151,7 @@ function QuestionTemplate(props) {
 
             </FormControl>
 
-            <h3>Preview</h3>
+            {[...props.questions].length > 0 ? <h3>Preview</h3> : ""}
 
             {[...props.questions].reverse().map((value, index) =>
                 <RenderQuestion question={value.question}

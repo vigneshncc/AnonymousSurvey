@@ -46,17 +46,17 @@ export default function DashboardStepper(props) {
             {/* <Paper square elevation={0} className={classes.header}>
         <Typography>{tutorialSteps[activeStep].label}</Typography>
       </Paper>  */}
-            {props.question.forEach((value, index) => {
+            {props.question.map((value, index) => {
                 if (activeStep === index)
                     return (<RenderChart question={value} data={props.answer[index]} type="RD">
                     </RenderChart>);
             })}
-            {props.checkQuestion.forEach((value, index) => {
+            {props.checkQuestion.map((value, index) => {
                 if (activeStep === index + props.question.length)
                     return (<RenderChart question={value} data={props.checkQuestionAnswer[index]} type="checkBox">
                     </RenderChart>);
             })}
-            {props.textQuestion.forEach((value, index) => {
+            {props.textQuestion.map((value, index) => {
                 if (activeStep === index + props.question.length + props.checkQuestion.length)
                     return (<RenderTable question={value} answers={props.textQuestionAnswer[index]} index={index + 1}></RenderTable>)
 

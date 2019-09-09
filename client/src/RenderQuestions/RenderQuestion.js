@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import TextField from '@material-ui/core/TextField';
-import Input from '@material-ui/core/Input';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import FilledInput from '@material-ui/core/FilledInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -65,7 +58,7 @@ function RenderQuestion(props) {
         textAlign: 'left'
     };
     let questionTypeJSX;
-    if (props.questionType == 'TextField') {
+    if (props.questionType === 'TextField') {
         questionTypeJSX = <div>
             <TextField
                 id="standard-full-width"
@@ -81,7 +74,7 @@ function RenderQuestion(props) {
                 onChange={(event) => props.textField(event, props.index, props.questionID)}
             />
         </div>
-    } else if (props.questionType == 'DropDown') {
+    } else if (props.questionType === 'DropDown') {
         questionTypeJSX =
             <div style={style}>
                 <Select
@@ -101,7 +94,7 @@ function RenderQuestion(props) {
                     ))}
                 </Select>
             </div >
-    } else if (props.questionType == 'Radio') {
+    } else if (props.questionType === 'Radio') {
         questionTypeJSX = <div>
             <RadioGroup
                 aria-label="gender"

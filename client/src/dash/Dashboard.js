@@ -1,5 +1,5 @@
-import React, { Component, useState } from "react";
-import { FormControl, InputLabel, Input, FormHelperText, Button, Container, Typography, CssBaseline } from '@material-ui/core';
+import React, { Component } from "react";
+import { Container, CssBaseline } from '@material-ui/core';
 import SurveyContract from '../contracts/Survey.json';
 import getWeb3 from "../utils/getWeb3";
 import Dash from './Dash';

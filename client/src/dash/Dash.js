@@ -24,16 +24,16 @@ function Dash(props) {
   let checkQuestionAnswer = [];
   let formDashboard = () => {
     demo.forEach((value, index) => {
-      if (value.type == 'TextField') {
-        if (textQuestionID.indexOf(value.questionID) == -1) {
+      if (value.type === 'TextField') {
+        if (textQuestionID.indexOf(value.questionID) === -1) {
           textQuestionID.push(value.questionID);
           textQuestion.push(value.question);
           textQuestionAnswer.push([value.answer]);
         } else {
           textQuestionAnswer[textQuestionID.indexOf(value.questionID)].push(value.answer);
         }
-      } else if (value.type == 'DropDown' || value.type == 'Radio') {
-        if (questionID.indexOf(value.questionID) == -1) {
+      } else if (value.type === 'DropDown' || value.type === 'Radio') {
+        if (questionID.indexOf(value.questionID) === -1) {
           questionID.push(value.questionID);
           question.push(value.question);
           let answerJSON = {};
@@ -48,8 +48,8 @@ function Dash(props) {
           }
           answer[questionID.indexOf(value.questionID)] = answerJSON;
         }
-      } else if (value.type = 'checkBox') {
-        if (checkQuestionID.indexOf(value.questionID) == -1) {
+      } else if (value.type === 'checkBox') {
+        if (checkQuestionID.indexOf(value.questionID) === -1) {
           checkQuestionID.push(value.questionID);
           checkQuestion.push(value.question);
           let answerJSON = {};

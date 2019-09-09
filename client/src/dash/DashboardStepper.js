@@ -1,8 +1,6 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -48,17 +46,17 @@ export default function DashboardStepper(props) {
             {/* <Paper square elevation={0} className={classes.header}>
         <Typography>{tutorialSteps[activeStep].label}</Typography>
       </Paper>  */}
-            {props.question.map((value, index) => {
+            {props.question.forEach((value, index) => {
                 if (activeStep === index)
                     return (<RenderChart question={value} data={props.answer[index]} type="RD">
                     </RenderChart>);
             })}
-            {props.checkQuestion.map((value, index) => {
+            {props.checkQuestion.forEach((value, index) => {
                 if (activeStep === index + props.question.length)
                     return (<RenderChart question={value} data={props.checkQuestionAnswer[index]} type="checkBox">
                     </RenderChart>);
             })}
-            {props.textQuestion.map((value, index) => {
+            {props.textQuestion.forEach((value, index) => {
                 if (activeStep === index + props.question.length + props.checkQuestion.length)
                     return (<RenderTable question={value} answers={props.textQuestionAnswer[index]} index={index + 1}></RenderTable>)
 

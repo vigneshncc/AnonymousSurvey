@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import RenderQuestion from '../RenderQuestions/RenderQuestion';
@@ -38,6 +38,8 @@ function RenderSurveyQuestion(props) {
             temp = temp.filter((value) => {
                 if (value !== event.target.value) {
                     return true;
+                } else {
+                    return false;
                 }
             })
         }
@@ -58,8 +60,8 @@ function RenderSurveyQuestion(props) {
             answers.push(hexAnswer);
         });
         await props.contract.methods.submitSurvey(surveyID, questIds, answers).send({ from: props.accountFrom }, (err, data) => {
-            console.log("data", data);
-            console.log("err", err);
+            console.log("submitSurvey-->data", data);
+            console.log("submitSurvey-->err", err);
         });
     }
 
@@ -87,7 +89,7 @@ function RenderSurveyQuestion(props) {
     } else {
         return (<div>
             <Others></Others>
-            <br/>
+            <br />
             <Typography variant="h6" className={classes.title}>
                 No survey data found.
             </Typography>

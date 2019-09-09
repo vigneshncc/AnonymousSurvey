@@ -9,15 +9,6 @@ import {
 } from '@material-ui/core';
 import Table from '../Others/TableComponent';
 import RenderQuestion from '../RenderQuestions/RenderQuestion';
-import Typography from '@material-ui/core/Typography';
-const useStyles = makeStyles(theme => ({
-    button: {
-        margin: theme.spacing(1),
-    },
-    input: {
-        display: 'none',
-    },
-}));
 const uuidv1 = require('uuid/v1');
 
 function QuestionTemplate(props) {
@@ -53,7 +44,10 @@ function QuestionTemplate(props) {
             questionTypeValueHandler: stateOpt.questionTypeValueHandler
         });
         const questionTypeValue = (stateOpt.questionTypeValueHandler && stateOpt.questionTypeValueHandler.length) > 0 ? JSON.stringify(stateOpt.questionTypeValueHandler) : JSON.stringify([]);
-        await props.contract.methods.createQuestion(uuidv1(), state.question, state.questionTypeHandler, questionTypeValue).send({ from: props.accountFrom });
+        await props.contract.methods.createQuestion(uuidv1(), state.question, state.questionTypeHandler, questionTypeValue).send({ from: props.accountFrom }, (err, data) => {
+            console.log("createQuestion--->data", data);
+            console.log("createQuestion-->err", err);
+        });
 
         setState({
             question: '',
@@ -117,7 +111,7 @@ function QuestionTemplate(props) {
 
     return (
         <div>
-            <FormControl fullWidth="true" style={{ padding: "20px" }}>
+            <FormControl fullWidth style={{ padding: "20px" }}>
                 <TextField
                     id="outlined-full-width"
                     label="Question:"

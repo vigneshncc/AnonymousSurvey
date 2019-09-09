@@ -5,7 +5,7 @@ function RenderChart(props) {
     let temp = props.data;
     let series;
     let seriesGenerator = () => {
-        if (props.type == 'RD') {
+        if (props.type === 'RD') {
             series = Object.keys(temp).map((value, index) => {
                 return {
                     name: value,
@@ -20,7 +20,7 @@ function RenderChart(props) {
     }
     let options;
     let optionsGenerator = () => {
-        if (props.type == 'RD') {
+        if (props.type === 'RD') {
             options = {
                 chart: {
                     plotBackgroundColor: null,
@@ -63,12 +63,6 @@ function RenderChart(props) {
                     categories: Object.keys(temp),
                     crosshair: true
                 },
-                plotOptions: {
-                    column: {
-                        pointPadding: 0.2,
-                        borderWidth: 0
-                    }
-                },
                 legend: {
                     enabled: false
                 },
@@ -80,6 +74,10 @@ function RenderChart(props) {
                         dataLabels: {
                             enabled: true
                         }
+                    },
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
                     }
                 },
                 tooltip: {

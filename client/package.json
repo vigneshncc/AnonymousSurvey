@@ -7,7 +7,7 @@
     "@material-ui/icons": "^4.2.1",
     "ethers": "^4.0.37",
     "fg-loadcss": "^2.1.0",
-    "highcharts": "^7.2.0",
+    "highcharts": "^9.0.0",
     "highcharts-react-official": "^2.2.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
